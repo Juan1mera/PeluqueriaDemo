@@ -1,1 +1,27 @@
-<h1>Login</h1>
+<h1 class="nombre-pagina">Login</h1>
+<p class="descripcion-pagina">Inicia Sesion con tus datos</p>
+
+<form class="formulario" method="POST" action="/">
+
+    <div class="campo">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" placeholder="Tu email" required>
+    </div>
+    <div class="campo">
+        <label for="password">Contraseña</label>
+        <input type="password" name="password" id="password" placeholder="Tu contraseña" required>
+    </div>
+    <input type="submit" class="boton" value="Iniciar Sesion" />
+
+</form>
+
+<div class="acciones">
+    <p>
+        Aun no tienes una cuenta?
+        <a href="/crear-cuenta">Crear Cuenta</a>
+    </p>
+    <p>
+        ¿Olvidaste tu contraseña?
+        <a href="/olvide">Olvide mi contraseña</a>
+    </p>
+</div>
