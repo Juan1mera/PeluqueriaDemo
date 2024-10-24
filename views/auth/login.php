@@ -5,11 +5,11 @@
 
     <div class="campo">
         <label for="email">Email</label>
-        <input type="email" name="email" id="email" placeholder="Tu email" required>
+        <input type="email" name="email" id="email" placeholder="Tu email" >
     </div>
     <div class="campo">
         <label for="password">Contraseña</label>
-        <input type="password" name="password" id="password" placeholder="Tu contraseña" required>
+        <input type="password" name="password" id="password" placeholder="Tu contraseña" >
     </div>
     <input type="submit" class="boton" value="Iniciar Sesion" />
 
