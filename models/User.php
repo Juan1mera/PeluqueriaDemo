@@ -54,6 +54,16 @@ class User extends ActiveRecord {
         return self::$alertas;
     }
 
+    public function validateLogin() {
+        if(!$this->email){
+            self::$alertas['error'][] = "El email es requerido*";
+        }
+        if(!$this->password){
+            self::$alertas['error'][] = "La contraseña es requerida*";
+        }
+        return self::$alertas;
+    }
+
     public function isUserExist() {
         $query = "SELECT * FROM " . self::$tabla . " WHERE email = '" . $this->email . "' LIMIT 1";
         $resultado = self::$db->query($query);
@@ -67,6 +77,16 @@ class User extends ActiveRecord {
 
     public function createToken() {
         $this->token = uniqid();
+    }
+
+    public function verificateUser($password) {
+        $resultado = password_verify($password, $this->password);
+        if(!$resultado || !$this->confirmado){
+            self::$alertas['error'][] = 'La contraseña es incorrecta o la cuenta no ha sido confirmada';
+        } else{
+            return true;
+        }
+        // debuguear($resultado);
     }
 
 }

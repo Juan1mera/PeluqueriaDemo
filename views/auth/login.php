@@ -1,11 +1,22 @@
 <h1 class="nombre-pagina">Login</h1>
 <p class="descripcion-pagina">Inicia Sesion con tus datos</p>
 
+<?php
+//  debuguear($user); 
+// debuguear($alertas);
+
+include_once __DIR__ . "/../../templates/alertas.php"
+ ?>
 <form class="formulario" method="POST" action="/">
 
     <div class="campo">
         <label for="email">Email</label>
-        <input type="email" name="email" id="email" placeholder="Tu email" >
+        <input 
+            type="email" 
+            name="email" 
+            id="email" 
+            placeholder="Tu email" 
+        >
     </div>
     <div class="campo">
         <label for="password">Contraseña</label>

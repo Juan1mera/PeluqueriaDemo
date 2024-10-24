@@ -7,18 +7,45 @@ use Model\User;
 use MVC\Router;
 
 class LoginController {
+
     public static function login(Router $router) {
         $alertas = [];
 
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $auth = new User($_POST);
+            $alertas = $auth->validateLogin();
+
+            if(empty($alertas)){
+                $user = User::where('email', $auth->email);
+
+                if($user){
+                    if($user->verificateUser($auth->password)){
+                        session_start();
+                        $_SESSION['id'] = $user->id;
+                        $_SESSION['name'] = $user->name . " " . $user->apellido;
+                        $_SESSION['email'] = $user->email;
+                        $_SESSION['login'] = true;
+                        if($user->admin === '1'){
+                            $_SESSION ['admin'] = $user->admin ?? null;
+                            header('location: /admin');
+                        } else{
+                            header('location: /cita');
+                        }
+                        // header('location: /');
+                    }
+                } else{
+                    User::setAlerta('error', 'Usuario no encontrado');
+                }
+
+            }
+
         }
-
+        $alertas = User::getAlertas();
         $router->render('auth/login', [
-            'alertas' => $alertas
+            'alertas' => $alertas,
         ]);
-
     }
+
     public static function logout() {
         echo "Desde Logout";
     }

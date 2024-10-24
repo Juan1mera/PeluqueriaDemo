@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../includes/app.php';
 
+use Controllers\CitaController;
 use Controllers\LoginController;
 use MVC\Router;
 $router = new Router();
@@ -25,6 +26,10 @@ $router->post('/crear-cuenta', [LoginController::class, 'crear']);
 $router->get('/confirmar', [LoginController::class, 'confirmar']); 
 $router->get('/mensaje', [LoginController::class, 'mensaje']); 
 
+
+// Area Princada
+$router->get('/cita', [CitaController::class, 'index']);
+$router->get('/cita/nuevo', [CitaController::class, 'nuevo']);
 
 
 
