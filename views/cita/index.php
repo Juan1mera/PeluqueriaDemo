@@ -1,5 +1,12 @@
+<div class="barra">
+    <p><?php echo $_SESSION['name'] ?></p>
+    <a href="/logout">Cerrar Sesion</a>
+</div>
+
 <h1 class="nombre-pagina">Crear nueva cita</h1>
 <p class="descripcion-pagina">Elige tus servicios y coloca tus datos</p>
+
+
 
 <div id="app">
 
@@ -42,6 +49,7 @@
                     max="17:00"
                 >
             </div>
+            <input type="hidden" id="id" value="<?php echo $id ?>" />
         </form>
     </div>
 
@@ -67,5 +75,8 @@
 </div>
 
 <?php 
-    $script = "<script src='build/js/app.js'></script>"
+    $script = "
+    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+    <script src='build/js/app.js'></script>
+    "
 ?>

@@ -47,16 +47,22 @@ class LoginController {
     }
 
     public static function logout() {
-        echo "Desde Logout";
+
+        session_start();
+        $_SESSION = [];
+        header('location: /');
     }
+
     public static function olvide(Router $router) {
         $router->render('auth/olvide', [
 
         ]);
     }
+
     public static function recuperar() {
         echo "Desde Recuperar";
     }
+
     public static function crear(Router $router) {
 
         $user = new User($_POST);

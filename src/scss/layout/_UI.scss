@@ -24,3 +24,19 @@
         padding: 3rem 0;
     }
 }
+
+.barra{
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: -2rem;
+    p{
+        margin: 0 0 0 1rem;
+    }
+    a{
+        color: v.$rojo;
+        text-decoration: none;
+    }
+}
