@@ -10,6 +10,12 @@
     &.alerta-error {
         color: v.$rojo;
     }
+    &.error {
+        color: v.$rojo;
+    }
+    &.exito {
+        color: v.$verde;
+    }
     &.alerta-exito {
         color: v.$verde;
     }
