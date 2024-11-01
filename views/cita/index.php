@@ -1,7 +1,6 @@
-<div class="barra">
-    <p><?php echo $_SESSION['name'] ?></p>
-    <a href="/logout">Cerrar Sesion</a>
-</div>
+<?php
+    include_once __DIR__ . '/../../templates/barra.php'
+?>
 
 <h1 class="nombre-pagina">Crear nueva cita</h1>
 <p class="descripcion-pagina">Elige tus servicios y coloca tus datos</p>

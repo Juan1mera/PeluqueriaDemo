@@ -5,6 +5,7 @@ require_once __DIR__ . '/../includes/app.php';
 use Controllers\ApiController;
 use Controllers\CitaController;
 use Controllers\LoginController;
+use Controllers\AdminController;
 use MVC\Router;
 $router = new Router();
 
@@ -28,12 +29,15 @@ $router->get('/confirmar', [LoginController::class, 'confirmar']);
 $router->get('/mensaje', [LoginController::class, 'mensaje']); 
 
 
-// Area Princada
+// Area Privada
 $router->get('/cita', [CitaController::class, 'index']);
+$router->get('/admin', [AdminController::class, 'index']);
 
 // API citas
 $router->get('/api/servicios', [ApiController::class, 'index']);
 $router->post('/api/citas', [ApiController::class, 'guardar']);
+
+// Admin
 
 
 
