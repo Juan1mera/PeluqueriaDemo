@@ -9,6 +9,8 @@
 
 <div id="app">
 
+    <a class="link" href="cita/citas">Ver Tus Proximas Citas </a>
+
     <nav class="tabs">
         <button type="button" data-paso="1">Servicios</button>
         <button type="button" data-paso="2">Informacion cita</button>

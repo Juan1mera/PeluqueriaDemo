@@ -18,6 +18,8 @@ body {
     @include m.tablet {
         height: 100%;
     }
+    scrollbar-width: none;
+
 }
 
 *, *:before, *:after {

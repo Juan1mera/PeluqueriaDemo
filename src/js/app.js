@@ -99,7 +99,7 @@ async function consultaApi(){
 
 function mostrarServicios(services) {
     services.forEach(service => {
-        const {id, nombre, precio} = service;
+        const {id, nombre, precio, duracion} = service;
 
         const nombreServicio = document.createElement('p');
         nombreServicio.innerHTML = nombre;
@@ -108,6 +108,10 @@ function mostrarServicios(services) {
         const precioServicio = document.createElement('p');
         precioServicio.innerHTML = `$${parseInt(precio).toLocaleString()}`;
         precioServicio.classList.add('precio-servicio');
+
+        const duracionServicio = document.createElement('p');
+        duracionServicio.innerHTML = `${duracion} min`;
+        duracionServicio.classList.add('duracion-servicio');
 
         const servicioDiv = document.createElement('DIV');
         servicioDiv.classList.add('servicio');
@@ -118,6 +122,7 @@ function mostrarServicios(services) {
 
         servicioDiv.appendChild(nombreServicio);
         servicioDiv.appendChild(precioServicio);
+        servicioDiv.appendChild(duracionServicio);
 
         document.querySelector('#servicios').appendChild(servicioDiv);
 
@@ -186,20 +191,59 @@ function seleccionarFecha(){
     });
 }
 
-function seleccionarHora(){
-    const horaInput = document.querySelector('#hora');
-    horaInput.addEventListener('input', function(e){
+async function seleccionarHora() {
+    let citasExistentes = [];
 
+    try {
+        const url = 'http://localhost:3000/api/citas';
+        const respuesta = await fetch(url);
+        const resultado = await respuesta.json();
+        citasExistentes = resultado; // Guardar las citas existentes
+    } catch (error) {
+        console.log(error);
+    }
+
+    const horaInput = document.querySelector('#hora');
+    const fechaInput = document.querySelector('#fecha'); // Asumimos que tienes un input de fecha
+
+    horaInput.addEventListener('input', function(e) {
         const horaCita = e.target.value;
-        const hora = horaCita.split(':');
-        if(hora[0] < 9 || hora[0] > 18){
-            e.target.value = ''
+        const fechaSeleccionada = fechaInput.value; // Fecha seleccionada por el usuario
+        const [horas, minutos] = horaCita.split(':');
+
+        // Verificar que la hora esté dentro del rango permitido (9 a 18)
+        if (horas < 9 || horas > 18) {
+            e.target.value = '';
             cita.hora = '';
-            mostrarAlerta("Hora no valida", "error", ".formulario");
-        } else{
-            cita.hora = horaCita;
+            mostrarAlerta("Hora no válida", "error", ".formulario");
+            return;
         }
 
+        // Convertir la hora y fecha seleccionadas en un objeto Date para comparaciones
+        const fechaHoraCita = new Date(`${fechaSeleccionada}T${horaCita}:00`);
+
+        // Verificar si hay conflictos con citas existentes en el mismo rango de hora y día
+        const conflicto = citasExistentes.some(citaExistente => {
+            // Verificar que la cita existente sea el mismo día
+            if (citaExistente.fecha !== fechaSeleccionada) {
+                return false; // Ignorar si la fecha es distinta
+            }
+
+            // Crear objetos Date para hora de inicio y fin de cada cita existente en el mismo día
+            const fechaHoraInicio = new Date(`${citaExistente.fecha}T${citaExistente.hora}`);
+            const fechaHoraFin = new Date(`${citaExistente.fecha}T${citaExistente.hora_fin}`);
+
+            // Comprobar si la hora seleccionada está dentro del rango de la cita existente
+            return fechaHoraCita >= fechaHoraInicio && fechaHoraCita < fechaHoraFin;
+        });
+
+        if (conflicto) {
+            e.target.value = '';
+            cita.hora = '';
+            mostrarAlerta("Este horario ya está ocupado en el rango de otra cita en la misma fecha", "error", ".formulario");
+        } else {
+            cita.hora = horaCita; // Guardar la hora en el objeto cita si es válida y sin conflictos
+        }
     });
 }
 
@@ -217,7 +261,7 @@ function mostrarResumen(){
     } else if(cita.servicios.length === 0){
         mostrarAlerta("Escoge al menos un servicio", "error", ".contenido-resumen" , timeout=false);
     } else {
-        const { nombre, fecha, hora, servicios } = cita;
+        const { nombre, fecha, hora, servicios  } = cita;
 
         // Crear y agregar elementos al resumen
         const nombreCliente = document.createElement('P');
@@ -237,10 +281,8 @@ function mostrarResumen(){
         
         fechaCita.innerHTML = `<span class="bold-blue">Fecha:</span> ${fechaF}`;
         resumen.appendChild(fechaCita);
-        
-        
-        
-        // Formatear la hora a 12 horas
+
+        // Formatear la hora de inicio a 12 horas
         const [horas, minutos] = hora.split(':');
         const fechaHora = new Date();
         fechaHora.setHours(horas, minutos);
@@ -251,12 +293,14 @@ function mostrarResumen(){
         horaCita.innerHTML = `<span class="bold-blue">Hora:</span> ${horaFormateada}`;
         resumen.appendChild(horaCita);
 
+        let duracionCita = 0;
+
         // Crear contenedor para la lista de servicios seleccionados
         const serviciosContenedor = document.createElement('DIV');
         serviciosContenedor.classList.add('listado-servicios');
 
         servicios.forEach(servicio => {
-            const { nombre, precio } = servicio;
+            const { nombre, precio, duracion } = servicio;
 
             const servicioContenedor = document.createElement('DIV');
             servicioContenedor.classList.add('servicio');
@@ -273,7 +317,27 @@ function mostrarResumen(){
             servicioContenedor.appendChild(precioServicio);
             
             serviciosContenedor.appendChild(servicioContenedor);
+
+            const duracionServicio = document.createElement('P');
+            duracionServicio.innerHTML = `${duracion} min`;
+            duracionServicio.classList.add('duracion-servicio');
+
+            servicioContenedor.appendChild(duracionServicio);
+
+            duracionCita += parseInt(duracion);
         });
+
+        // Calcular la hora de finalización
+        const fechaHoraFin = new Date(fechaHora.getTime() + duracionCita * 60000); // Agrega la duración en milisegundos
+        const horaFinFormateada = fechaHoraFin.toLocaleTimeString('es-ES', { hour: 'numeric', minute: '2-digit', hour12: true });
+
+        const horaFinCita = document.createElement('P');
+        horaFinCita.innerHTML = `<span class="bold-blue">Hora de Fin:</span> ${horaFinFormateada}`;
+        resumen.appendChild(horaFinCita);
+        // Simplemente asigna la propiedad directamente
+        const horaFinFormateada24 = fechaHoraFin.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false });
+        cita.hora_fin = horaFinFormateada24;
+
 
         resumen.appendChild(serviciosContenedor); 
 
@@ -291,7 +355,7 @@ function mostrarResumen(){
 
 async function reservarServicio(){
 
-    const {id, nombre, fecha, hora, servicios} = cita;
+    const {id, nombre, fecha, hora, servicios, hora_fin} = cita;
     const idServicios = servicios.map(servicio => servicio.id);
     const data = new FormData();
 
@@ -299,6 +363,8 @@ async function reservarServicio(){
     data.append('fecha', fecha)
     data.append('hora', hora);
     data.append('servicios', idServicios);
+    data.append('hora_fin', hora_fin);
+
     try {
         const url = 'http://localhost:3000/api/citas';
         const respuesta = await fetch(url, {

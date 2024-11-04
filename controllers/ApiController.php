@@ -12,6 +12,12 @@ class ApiController{
         echo json_encode($servicios);
     }
 
+    public static function citas(){
+        $citas = Cita::all();
+
+        echo json_encode($citas);
+    }
+
     public static function guardar(){
         
         $cita = new Cita($_POST);

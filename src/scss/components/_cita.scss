@@ -18,3 +18,9 @@
 .ocultar{
     display: none;
 }
+.link{
+    color: v.$azul;
+    &::hover{
+        border-bottom: 1px solid v.$azul;
+    }
+}

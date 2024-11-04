@@ -23,9 +23,11 @@
         margin: 0 auto;
         padding: 3rem 0;
         @include m.tablet {
-            overflow: scroll;
+
             overflow-x: hidden;
+            
         }
+        scrollbar-width: none;
     }
 }
 
@@ -43,4 +45,13 @@
         color: v.$rojo;
         text-decoration: none;
     }
+}
+
+.barra-servicios{
+    margin-bottom: v.$separacion;
+    @include m.tablet {
+        display: flex;
+        justify-content: space-between;
+    }
+    
 }

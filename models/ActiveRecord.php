@@ -121,6 +121,11 @@ class ActiveRecord {
         $resultado = self::consultarSQL($query);
         return array_shift($resultado);
     }
+    public static function allwhere($columna, $valor) {
+        $query = "SELECT * FROM " . static::$tabla . " WHERE $columna = '$valor'";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
 
     // Consulta Plana de SQL
     public static function SQL($query) {
