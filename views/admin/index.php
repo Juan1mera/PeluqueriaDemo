@@ -22,6 +22,14 @@
     </form>
 </div>
 
+<?php 
+
+    if (count($citas) === 0) {
+        echo "<h3>No hay citas para este dia</h3>"; 
+    }
+
+?>
+
 <div id="citas_admin">
     <ul class="citas">
     <?php 
@@ -34,7 +42,7 @@
     ?>
                 <li>
                     <p>ID: <span> <?php echo $cita->id; ?> </span></p>
-                    <p>Fecha: <span> <?php echo $cita->hora; ?> </span></p>
+                    <p>Hora: <span> <?php echo $cita->hora; ?> </span></p>
                     <p>Cliente: <span> <?php echo $cita->cliente; ?> </span></p>
                     <p>Email: <span> <?php echo $cita->email; ?> </span></p>
                     <p>Telefono: <span> <?php echo $cita->telefono; ?> </span></p>
@@ -43,13 +51,16 @@
                 $idCita = $cita->id;
             }   
             ?>
-        <p class="servicio"><?php echo $cita->servicio . ' - ' . $cita->precio; ?></p>
-            
+        <p class="servicio"><?php echo $cita->servicio . ' - ' . number_format($cita->precio, 0, ',', '.'); ?></p>  
             <?php 
                 $total += $cita->precio;
                 $proximo = $key + 1 < $totalCitas ? $citas[$key+1]->id : null;
                 if($proximo !== $cita->id){ ?>
-                    <p class="total">Total: <span><?php echo $total; ?></span></p>
+                    <p class="total">Total: <span><?php echo number_format($total, 0, ',', '.'); ?></span></p>
+                    <form action="/api/eliminar" method="POST">
+                        <input type="hidden" name="id" value="<?php echo $cita->id; ?>">
+                        <input type="submit" class="boton-eliminar" value="Eliminar" />
+                    </form>
                 <?php } 
         endforeach;
     ?>
@@ -59,3 +70,8 @@
 </div>
 
 
+<?php
+
+    $script = "<script src='build/js/buscador.js'></script>";
+
+?>
