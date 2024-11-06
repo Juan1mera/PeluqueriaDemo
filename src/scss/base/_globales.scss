@@ -15,12 +15,16 @@ body {
     font-family: v.$fuente_principal;
     font-size: 1.6rem;
     min-height: 100%;
+
     @include m.tablet {
         height: 100%;
     }
-    scrollbar-width: none;
 
+    & {
+        scrollbar-width: none;
+    }
 }
+
 
 *, *:before, *:after {
     box-sizing: inherit;
