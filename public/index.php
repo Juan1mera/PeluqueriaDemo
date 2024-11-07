@@ -1,6 +1,6 @@
 <?php 
 
-require_once dirname(__DIR__) . '/includes/app.php';
+require_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/../includes/app.php');
 
 
 use Controllers\ApiController;
