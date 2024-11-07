@@ -33,11 +33,13 @@ $router->get('/mensaje', [LoginController::class, 'mensaje']);
 // Area Privada
 $router->get('/cita', [CitaController::class, 'index']);
 $router->get('/cita/citas', [CitaController::class, 'citas']);
+$router->get('/cita/tcitas', [CitaController::class, 'tcitas']);
 $router->get('/admin', [AdminController::class, 'index']);
 
 // API citas
 $router->get('/api/servicios', [ApiController::class, 'index']);
 $router->get('/api/citas', [ApiController::class, 'citas']);
+$router->get('/api/empleados', [ApiController::class, 'empleados']);
 $router->post('/api/citas', [ApiController::class, 'guardar']);
 $router->post('/api/eliminar', [ApiController::class, 'eliminar']);
 

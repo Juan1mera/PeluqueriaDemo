@@ -12,16 +12,37 @@
         flex: 0 0 10rem;
     }
 
-    input {
+    input, select { // Aplica los mismos estilos a input y select
         flex: 1;
         border: none;
-        padding: calc(v.$separacion / 4);
+        padding: 0.5rem; // Ajusta según tu variable de separación
         border-radius: 1rem;
+    }
+
+    select {
+        appearance: none; // Elimina el estilo predeterminado del navegador
+        -webkit-appearance: none; // Para navegadores basados en Webkit
+        background-color: #f0f0f0; // Fondo similar al de input
+        color: #333;
+        padding-right: 1.5rem; // Espacio para la flecha
+
+        // Flecha personalizada para el select
+        background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="%23333" viewBox="0 0 24 24"%3E%3Cpath d="M6 9l6 6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
+        background-position: right 1rem center;
+        background-repeat: no-repeat;
+        background-size: 1rem;
 
         &:disabled {
-            background-color: color.adjust(v.$negro, $lightness: 30%);
-            color: v.$blanco;
+            background-color: adjust-color(#000, $lightness: 30%);
+            color: #fff;
             cursor: not-allowed;
         }
     }
+
+    input:disabled {
+        background-color: adjust-color(#000, $lightness: 30%);
+        color: #fff;
+        cursor: not-allowed;
+    }
 }
+

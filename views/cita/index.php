@@ -3,13 +3,12 @@
 ?>
 
 <h1 class="nombre-pagina">Crear nueva cita</h1>
-<p class="descripcion-pagina">Elige tus servicios y coloca tus datos</p>
-
-
 
 <div id="app">
 
     <a class="link" href="cita/citas">Ver Tus Proximas Citas </a>
+    <a>|</a>
+    <a class="link" href="cita/tcitas">Ver Todas tus Citas </a>
 
     <nav class="tabs">
         <button type="button" data-paso="1">Servicios</button>
@@ -19,7 +18,6 @@
 
     <div id="paso-1" class="seccion">
         <h2>Servicios</h2>
-        <p class="text-center">Elige los servicios que quieres citar</p>
         <div id="servicios" class="listado-servicios"></div>
     </div>
 
@@ -30,6 +28,12 @@
             <div class="campo"> 
                 <label for="name">Nombre</label>
                 <input type="text" name="name" id="name" placeholder="Tu nombre"  value="<?php echo $name; ?>" disabled>
+            </div>
+            <div class="campo">
+                <label for="empleado">Empleado</label>
+                <select name="empleado" id="empleado">
+                    <option value="" disabled selected>Con quien quieres agendar tu cita</option>
+                </select>
             </div>
             <div class="campo"> 
                 <label for="fecha">Fecha</label>

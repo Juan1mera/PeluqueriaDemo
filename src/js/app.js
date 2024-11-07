@@ -1,11 +1,13 @@
 let paso = 1;
-
+let citasExistentes = [];
 const cita = {
     id: '',
     nombre: '',
     fecha: '',
     hora: '',
-    servicios: []
+    servicios: [],
+    empleadoId: '',
+    empleado: ''
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -18,17 +20,30 @@ function iniciarApp(){
     mostrarSeccion(1);
     paginador();
 
+
     consultaApi();
+    llamarCitas();
 
     idCliente();
     nombreCliente();
+    seleccionarEmpleado();
     seleccionarFecha();
     seleccionarHora();
 
     mostrarResumen();
 }
 
+async function llamarCitas(){
 
+    try {
+        const url = 'http://localhost:3000/api/citas';
+        const respuesta = await fetch(url);
+        const resultado = await respuesta.json();
+        citasExistentes = resultado; // Guardar las citas existentes
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 function mostrarSeccion(paso){
 
@@ -174,6 +189,27 @@ function mostrarAlerta(mensaje, tipo, elemento, timeout=true){
     }
 }
 
+function seleccionarEmpleado(){
+    const selectEmpleado = document.getElementById("empleado");
+
+    // Llamada a la API para obtener los empleados
+    fetch("http://localhost:3000/api/empleados")
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(empleado => {
+                const option = document.createElement("option");
+                option.value = empleado.id; 
+                option.textContent = empleado.nombre;
+                selectEmpleado.appendChild(option);
+            });
+        })
+        .catch(error => console.error("Error al obtener empleados:", error));
+    selectEmpleado.addEventListener("change", function() {
+        cita.empleadoId = this.value;
+        cita.empleado = this.options[this.selectedIndex].text;
+    });
+}
+
 function seleccionarFecha(){
     const fechaInput = document.querySelector('#fecha');
     fechaInput.addEventListener('input', function(e){
@@ -191,24 +227,13 @@ function seleccionarFecha(){
     });
 }
 
-async function seleccionarHora() {
-    let citasExistentes = [];
-
-    try {
-        const url = 'http://localhost:3000/api/citas';
-        const respuesta = await fetch(url);
-        const resultado = await respuesta.json();
-        citasExistentes = resultado; // Guardar las citas existentes
-    } catch (error) {
-        console.log(error);
-    }
-
+function seleccionarHora() {
     const horaInput = document.querySelector('#hora');
-    const fechaInput = document.querySelector('#fecha'); // Asumimos que tienes un input de fecha
+    const fechaInput = document.querySelector('#fecha');
 
     horaInput.addEventListener('input', function(e) {
         const horaCita = e.target.value;
-        const fechaSeleccionada = fechaInput.value; // Fecha seleccionada por el usuario
+        const fechaSeleccionada = fechaInput.value;
         const [horas, minutos] = horaCita.split(':');
 
         // Verificar que la hora esté dentro del rango permitido (9 a 18)
@@ -219,33 +244,38 @@ async function seleccionarHora() {
             return;
         }
 
-        // Convertir la hora y fecha seleccionadas en un objeto Date para comparaciones
-        const fechaHoraCita = new Date(`${fechaSeleccionada}T${horaCita}:00`);
+        const fechaHoraCitaInicio = new Date(`${fechaSeleccionada}T${horaCita}:00`);
+        const fechaHoraCitaFin = new Date(fechaHoraCitaInicio);
+        fechaHoraCitaFin.setMinutes(fechaHoraCitaFin.getMinutes() + 60); // Asume duración de 1 hora para la cita
 
-        // Verificar si hay conflictos con citas existentes en el mismo rango de hora y día
+        // Verificar si hay conflictos con citas existentes en el mismo rango de hora, día y empleado
         const conflicto = citasExistentes.some(citaExistente => {
-            // Verificar que la cita existente sea el mismo día
-            if (citaExistente.fecha !== fechaSeleccionada) {
-                return false; // Ignorar si la fecha es distinta
+            // Verificar que la cita existente sea para el mismo empleado y en el mismo día
+            if (citaExistente.empleadoId === cita.empleadoId && citaExistente.fecha === fechaSeleccionada) {
+                const fechaHoraInicioExistente = new Date(`${citaExistente.fecha}T${citaExistente.hora}`);
+                const fechaHoraFinExistente = new Date(`${citaExistente.fecha}T${citaExistente.hora_fin}`);
+
+                // Comprobar si la hora seleccionada se superpone con el rango de la cita existente
+                return (
+                    (fechaHoraCitaInicio >= fechaHoraInicioExistente && fechaHoraCitaInicio < fechaHoraFinExistente) ||
+                    (fechaHoraCitaFin > fechaHoraInicioExistente && fechaHoraCitaFin <= fechaHoraFinExistente) ||
+                    (fechaHoraCitaInicio <= fechaHoraInicioExistente && fechaHoraCitaFin >= fechaHoraFinExistente)
+                );
             }
-
-            // Crear objetos Date para hora de inicio y fin de cada cita existente en el mismo día
-            const fechaHoraInicio = new Date(`${citaExistente.fecha}T${citaExistente.hora}`);
-            const fechaHoraFin = new Date(`${citaExistente.fecha}T${citaExistente.hora_fin}`);
-
-            // Comprobar si la hora seleccionada está dentro del rango de la cita existente
-            return fechaHoraCita >= fechaHoraInicio && fechaHoraCita < fechaHoraFin;
+            return false;
         });
 
         if (conflicto) {
             e.target.value = '';
             cita.hora = '';
-            mostrarAlerta("Este horario ya está ocupado en el rango de otra cita en la misma fecha", "error", ".formulario");
+            mostrarAlerta("Este horario ya está ocupado para el empleado seleccionado", "error", ".formulario");
         } else {
             cita.hora = horaCita; // Guardar la hora en el objeto cita si es válida y sin conflictos
         }
     });
 }
+
+
 
 function mostrarResumen(){
     const resumen = document.querySelector('.contenido-resumen');
@@ -261,7 +291,7 @@ function mostrarResumen(){
     } else if(cita.servicios.length === 0){
         mostrarAlerta("Escoge al menos un servicio", "error", ".contenido-resumen" , timeout=false);
     } else {
-        const { nombre, fecha, hora, servicios  } = cita;
+        const { nombre, fecha, hora, servicios, empleado  } = cita;
 
         // Crear y agregar elementos al resumen
         const nombreCliente = document.createElement('P');
@@ -292,6 +322,8 @@ function mostrarResumen(){
         const horaCita = document.createElement('P');
         horaCita.innerHTML = `<span class="bold-blue">Hora:</span> ${horaFormateada}`;
         resumen.appendChild(horaCita);
+
+
 
         let duracionCita = 0;
 
@@ -338,6 +370,9 @@ function mostrarResumen(){
         const horaFinFormateada24 = fechaHoraFin.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false });
         cita.hora_fin = horaFinFormateada24;
 
+        const conQuien = document.createElement('P');
+        conQuien.innerHTML = `<span class="bold-blue">Con quién:</span> ${empleado}`;
+        resumen.appendChild(conQuien);
 
         resumen.appendChild(serviciosContenedor); 
 
@@ -355,7 +390,7 @@ function mostrarResumen(){
 
 async function reservarServicio(){
 
-    const {id, nombre, fecha, hora, servicios, hora_fin} = cita;
+    const {id, nombre, fecha, hora, servicios, hora_fin, empleadoId} = cita;
     const idServicios = servicios.map(servicio => servicio.id);
     const data = new FormData();
 
@@ -364,6 +399,7 @@ async function reservarServicio(){
     data.append('hora', hora);
     data.append('servicios', idServicios);
     data.append('hora_fin', hora_fin);
+    data.append('empleadoId', empleadoId);
 
     try {
         const url = 'http://localhost:3000/api/citas';

@@ -4,6 +4,7 @@ namespace Controllers;
 use Model\Cita;
 use Model\CitaServicio;
 use Model\Servicio;
+use Model\Empleados;
 
 class ApiController{
     public static function index(){
@@ -16,6 +17,12 @@ class ApiController{
         $citas = Cita::all();
 
         echo json_encode($citas);
+    }
+
+    public static function empleados(){
+        $empleados = Empleados::all();
+
+        echo json_encode($empleados);
     }
 
     public static function guardar(){
