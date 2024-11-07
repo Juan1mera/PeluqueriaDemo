@@ -12,3 +12,7 @@ vendor/composer/installed.json
 vendor/composer/installed.php
 vendor/composer/platform_check.php
 includes/.env
+vendor
+./vendor
+vendor/
+vendor/composer

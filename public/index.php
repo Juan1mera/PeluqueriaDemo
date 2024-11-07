@@ -1,6 +1,7 @@
 <?php 
 
-require_once __DIR__ . '/../includes/app.php';
+require_once dirname(__DIR__) . '/includes/app.php';
+
 
 use Controllers\ApiController;
 use Controllers\CitaController;
