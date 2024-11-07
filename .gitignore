@@ -11,3 +11,4 @@ vendor/composer/autoload_static.php
 vendor/composer/installed.json
 vendor/composer/installed.php
 vendor/composer/platform_check.php
+includes/.env

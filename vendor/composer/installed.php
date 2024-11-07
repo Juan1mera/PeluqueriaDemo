@@ -3,7 +3,7 @@
         'name' => 'juan-mera/leos-style',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '4020e202e0927e0a5ead9c6f7b9696f7869d1d7f',
+        'reference' => '6b8856585376c4b608913a57761ece1d0304c848',
         'type' => 'proyect',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'juan-mera/leos-style' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '4020e202e0927e0a5ead9c6f7b9696f7869d1d7f',
+            'reference' => '6b8856585376c4b608913a57761ece1d0304c848',
             'type' => 'proyect',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
