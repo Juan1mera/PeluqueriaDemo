@@ -23,7 +23,7 @@
 <?php 
 
     if (count($citas) === 0) {
-        echo "<h3>No hay citas para este hoy</h3>"; 
+        echo "<h3>No hay citas para hoy</h3>"; 
     }
 
 ?>

@@ -1,7 +1,7 @@
 @use 'base/variables' as v;
 @use 'base/mixins' as m;
 
-@use 'sass:color'; // Importar el módulo de Sass para manipulación de colores
+@use 'sass:color'; 
 
 .campo {
     display: flex;
@@ -33,7 +33,7 @@
         background-size: 1rem;
 
         &:disabled {
-            background-color: adjust-color(#000, $lightness: 30%);
+            background-color: color.adjust(#000, $lightness: 30%);
             color: #fff;
             cursor: not-allowed;
         }

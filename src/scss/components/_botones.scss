@@ -3,8 +3,13 @@
 
 .boton {
     @include m.boton(v.$azul, v.$blanco);
+    border-radius: 1rem;
 }
 
 .boton-eliminar {
     @include m.boton(v.$rojo, v.$blanco);
+    border-radius: 1rem
+}
+.boton-mini {
+    @include m.boton(v.$azul, v.$blanco);
 }

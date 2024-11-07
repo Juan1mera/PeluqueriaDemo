@@ -1,5 +1,6 @@
 @use '../base/variables' as v;
 @use '../base/mixins' as m;
+@use "sass:color";
 
 .contenedor-app {
     @include m.tablet {
@@ -48,11 +49,36 @@
     }
 }
 
-.barra-servicios{
-    margin-bottom: v.$separacion;
-    @include m.tablet {
+.barra-servicios {
+    // margin-bottom: v.$separacion;
+
+    @media (min-width: 768px) {
         display: flex;
         justify-content: space-between;
     }
-    
+
+    .barra_option {
+        background-color: v.$azul;
+        padding: 1rem 2rem;
+        color: v.$blanco;
+        margin-top: 1rem;
+        font-size: 1.5rem;
+        font-weight: 700; 
+        display: inline-block;
+        border: none;
+        transition-property: background-color;
+        transition-duration: .3s;
+        text-align: center;
+        display: block;
+        width: 100%;
+        margin: 4rem 0;
+
+        @media (min-width: 768px) {
+        }
+
+        &:hover {
+            background-color: color.adjust(v.$azul, $lightness: -10%);
+            cursor: pointer;
+        }
+    }
 }
