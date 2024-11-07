@@ -3,8 +3,6 @@
     include_once __DIR__ . '/../../templates/barra.php'
 ?>
 
-<h1 class="nombre-pagina">Admin</h1>
-
 <h2>Buscar citas</h2>
 <div class="busqueda">
     <form class="formulario">
