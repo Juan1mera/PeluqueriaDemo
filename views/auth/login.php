@@ -31,6 +31,8 @@ include_once __DIR__ . "/../../templates/alertas.php"
         Aun no tienes una cuenta?
         <a href="/crear-cuenta">Crear Cuenta</a>
     </p>
+    <p style="color: red; font-size: 1.2rem">Asegurate de que tu correo y numero de telefono sean correctos para poder contactarte</p>
+
     <!-- <p>
         ¿Olvidaste tu contraseña?
         <a href="/olvide">Olvide mi contraseña</a>
