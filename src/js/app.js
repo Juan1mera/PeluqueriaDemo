@@ -36,7 +36,7 @@ function iniciarApp(){
 async function llamarCitas(){
 
     try {
-        const url = 'http://localhost:3000/api/citas';
+        const url = `${window.location.origin}/api/citas`;
         const respuesta = await fetch(url);
         const resultado = await respuesta.json();
         citasExistentes = resultado; // Guardar las citas existentes
@@ -103,7 +103,7 @@ function paginador(){
 
 async function consultaApi(){
     try {
-        const url = 'http://localhost:3000/api/servicios';
+        const url = `${window.location.origin}/api/servicios`;
         const result = await fetch(url);
         const services = await result.json();
         mostrarServicios(services);
@@ -193,7 +193,7 @@ function seleccionarEmpleado(){
     const selectEmpleado = document.getElementById("empleado");
 
     // Llamada a la API para obtener los empleados
-    fetch("http://localhost:3000/api/empleados")
+    fetch(`${window.location.origin}/api/empleados`)
         .then(response => response.json())
         .then(data => {
             data.forEach(empleado => {
@@ -402,7 +402,7 @@ async function reservarServicio(){
     data.append('empleadoId', empleadoId);
 
     try {
-        const url = 'http://localhost:3000/api/citas';
+        const url = `${window.location.origin}/api/citas`;  
         const respuesta = await fetch(url, {
             method: 'POST',
             body: data
