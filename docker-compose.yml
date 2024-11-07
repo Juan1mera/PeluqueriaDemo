@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: leosstyle-web
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      DB_HOST: sfo1.clusters.zeabur.com
+      DB_USER: root
+      DB_PASSWORD: cvjMqnYeS8aU5r467flgzDwO1A032Es9
+      DB_NAME: zeabur
+      DB_PORT: 31309
+    networks:
+      - leosstyle-net
+
+  db:
+    image: mysql:5.7
+    container_name: leosstyle-db
+    environment:
+      MYSQL_ROOT_PASSWORD: your_root_password
+      MYSQL_DATABASE: leosstyle
+      MYSQL_USER: your_user
+      MYSQL_PASSWORD: your_password
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - leosstyle-net
+
+networks:
+  leosstyle-net:
+
+volumes:
+  db_data:
