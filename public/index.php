@@ -6,6 +6,7 @@ use Controllers\ApiController;
 use Controllers\CitaController;
 use Controllers\LoginController;
 use Controllers\AdminController;
+use Controllers\PersonsController;
 use Controllers\ServicioController;
 use MVC\Router;
 $router = new Router();
@@ -50,6 +51,12 @@ $router->post('/servicios/crear', [ServicioController::class, 'crear']);
 $router->get('/servicios/actualizar', [ServicioController::class, 'actualizar']);
 $router->post('/servicios/actualizar', [ServicioController::class, 'actualizar']);
 $router->post('/servicios/eliminar', [ServicioController::class, 'eliminar']);
+
+// CRUD personas
+$router->get('/personas', [PersonsController::class, 'index']);
+$router->get('/personas/crear', [PersonsController::class, 'crear']);
+$router->post('/personas/crear', [PersonsController::class, 'crear']);
+$router->post('/personas/borrar', [PersonsController::class, 'eliminar']);
 
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador

@@ -4,8 +4,7 @@
 ?>
 
 <h1 class="nombre-pagina">Servicios</h1>
-<p class="descripcion-pagina">Administrar los servicios </p>
-
+<a class="link" href="/servicios/crear">Crear Servicio</a>
 <ul class="servicios">
     <?php foreach($servicios as $servicio){ ?>
         <li>

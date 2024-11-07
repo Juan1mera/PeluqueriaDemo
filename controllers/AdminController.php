@@ -19,16 +19,14 @@ class AdminController {
         }
 
 
-        $consulta = "SELECT citas.id, citas.hora, CONCAT( users.name, ' ', users.apellido) as cliente, ";
-        $consulta .= " users.email, users.telefono, servicios.nombre as servicio, servicios.precio  ";
-        $consulta .= " FROM citas  ";
-        $consulta .= " LEFT OUTER JOIN users ";
-        $consulta .= " ON citas.userId=users.id  ";
-        $consulta .= " LEFT OUTER JOIN citas_servicios ";
-        $consulta .= " ON citas_servicios.citaId=citas.id ";
-        $consulta .= " LEFT OUTER JOIN servicios ";
-        $consulta .= " ON servicios.id=citas_servicios.servicioId ";
-        $consulta .= " WHERE fecha =  '$fecha' ";
+        $consulta = "SELECT citas.id, citas.hora, citas.hora_fin, CONCAT(users.name, ' ', users.apellido) AS cliente, ";
+        $consulta .= "users.email, users.telefono, servicios.nombre AS servicio, servicios.precio, empleados.nombre AS empleado ";
+        $consulta .= "FROM citas ";
+        $consulta .= "LEFT OUTER JOIN users ON citas.userId = users.id ";
+        $consulta .= "LEFT OUTER JOIN citas_servicios ON citas_servicios.citaId = citas.id ";
+        $consulta .= "LEFT OUTER JOIN servicios ON servicios.id = citas_servicios.servicioId ";
+        $consulta .= "LEFT OUTER JOIN empleados ON citas.empleadoId = empleados.id ";
+        $consulta .= "WHERE citas.fecha = '$fecha';"; 
         $citas =AdminCita::SQL($consulta);
 
         $router->render('admin/index', [

@@ -6,9 +6,9 @@
 <?php if(isset($_SESSION['admin'])){ ?>
 
     <div class="barra-servicios">
-        <a class="boton" href="/admin">Ver Citas</a>
-        <a class="boton" href="/servicios">Ver Servicios</a>
-        <a class="boton" href="/servicios/crear">Crear Servicio</a>
+        <a class="boton" href="/admin">Citas</a>
+        <a class="boton" href="/servicios">Servicios</a>
+        <a class="boton" href="personas">Personas</a>
     </div>
 
 <?php } ?>

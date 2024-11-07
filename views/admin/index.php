@@ -2,10 +2,8 @@
 <?php
     include_once __DIR__ . '/../../templates/barra.php'
 ?>
-<br>
-<br>
-<br>
-<h1>Admin</h1>
+
+<h1 class="nombre-pagina">Admin</h1>
 
 <h2>Buscar citas</h2>
 <div class="busqueda">
@@ -25,7 +23,7 @@
 <?php 
 
     if (count($citas) === 0) {
-        echo "<h3>No hay citas para este dia</h3>"; 
+        echo "<h3>No hay citas para este hoy</h3>"; 
     }
 
 ?>
@@ -41,11 +39,12 @@
                 $total = 0;
     ?>
                 <li>
-                    <p>ID: <span> <?php echo $cita->id; ?> </span></p>
                     <p>Hora: <span> <?php echo $cita->hora; ?> </span></p>
+                    <p>Hora Final Aprox: <span> <?php echo $cita->hora_fin; ?> </span></p>
                     <p>Cliente: <span> <?php echo $cita->cliente; ?> </span></p>
                     <p>Email: <span> <?php echo $cita->email; ?> </span></p>
                     <p>Telefono: <span> <?php echo $cita->telefono; ?> </span></p>
+                    <p>Con: <span> <?php echo $cita->empleado; ?> </span></p>
                     <h3>Servicios</h3>
                 <?php 
                 $idCita = $cita->id;
