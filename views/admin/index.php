@@ -69,6 +69,6 @@
 
 <?php
 
-    $script = "<script src='build/js/buscador.js'></script>";
+    $script = "<script src='/public/build/js/buscador.js'></script>";
 
 ?>
