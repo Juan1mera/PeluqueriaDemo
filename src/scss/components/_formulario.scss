@@ -40,7 +40,7 @@
     }
 
     input:disabled {
-        background-color: adjust-color(#000, $lightness: 30%);
+        background-color: color.adjust(#000, $lightness: 30%);
         color: #fff;
         cursor: not-allowed;
     }
