@@ -8,7 +8,14 @@
 // $db_name = 'zeabur';
 
 // Crear conexión usando mysqli
-$db = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME'], $_ENV['DB_PORT']);
+$db_host = $_ENV['DB_HOST'] ?? 'localhost';
+$db_user = $_ENV['DB_USER'] ?? 'root';
+$db_password = $_ENV['DB_PASSWORD'] ?? '';
+$db_name = $_ENV['DB_NAME'] ?? 'database';
+$db_port = $_ENV['DB_PORT'] ?? 3306; 
+
+// Crear conexión usando mysqli
+$db = mysqli_connect($db_host, $db_user, $db_password, $db_name, $db_port);
 
 $db->set_charset('utf8');
 
