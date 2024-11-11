@@ -1,5 +1,6 @@
 <?php 
 
+require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../includes/app.php';
 
 
@@ -61,4 +62,4 @@ $router->post('/personas/borrar', [PersonsController::class, 'eliminar']);
 
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
-$router->comprobarRutas();
+// $router->comprobarRutas();
