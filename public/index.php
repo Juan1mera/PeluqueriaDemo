@@ -62,4 +62,4 @@ $router->post('/personas/borrar', [PersonsController::class, 'eliminar']);
 
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
-// $router->comprobarRutas();
+$router->comprobarRutas();
